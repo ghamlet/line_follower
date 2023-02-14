@@ -63,7 +63,7 @@ void steerLeft()
   
  }
 
-void ivent(){
+void ivent_1(){
    digitalWrite(28, HIGH);
       runForward();
      
@@ -75,7 +75,27 @@ void ivent(){
 
      analogWrite(DIR_LEFT, SPEED);   // turn left
      analogWrite(SPEED_RIGHT, SPEED );
-     delay(500);
+     delay(450);
+     analogWrite(DIR_LEFT, 0);   
+     analogWrite(SPEED_RIGHT, 0 );
+     analogWrite(DIR_RIGHT, 0);   
+     analogWrite(SPEED_LEFT, 0 );
+    
+}
+
+void ivent_2(){
+   digitalWrite(28, HIGH);
+      runForward();
+     
+      delay(300);
+       digitalWrite(28, LOW);
+    
+     ostanovka();
+     delay(200);
+
+     analogWrite(DIR_RIGHT, SPEED);   // turn right
+     analogWrite(SPEED_LEFT, SPEED );
+     delay(450);
      analogWrite(DIR_LEFT, 0);   
      analogWrite(SPEED_RIGHT, 0 );
      analogWrite(DIR_RIGHT, 0);   
@@ -143,7 +163,12 @@ void loop() {
     
      if ((right == 1 && left==1 )&&(!flag)){
       flag=true;
-      ivent();
+
+      int number = random(1,3);
+      if (number == 1)
+        ivent_1();
+       
+      else ivent_2();
                                       }
      
 
