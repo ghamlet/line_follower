@@ -1,24 +1,21 @@
 // Моторы подключаются к клеммам M1+,M1-,M2+,M2-  
 // Motor shield использует четыре контакта 6,5,7,4 для управления моторами 
-#define SPEED_LEFT       6  //левое вперед
+#define SPEED_LEFT       7  //левое вперед
 #define SPEED_RIGHT      46 // правое вперед
-#define DIR_LEFT         7 // лево назад
+#define DIR_LEFT         6  // лево назад
 #define DIR_RIGHT        45  // правое назад
 
+#define sharp1 A8      // SHARP
+#define sharp2 A9      // SHARP
 
-#define LEFT_SENSOR_PIN  9
-#define RIGHT_SENSOR_PIN 10
+
+#define LEFT_SENSOR_PIN  6
+#define RIGHT_SENSOR_PIN 5
  
-// Скорость, с которой мы движемся вперёд (0-255)
-#define SPEED            50
- 
-// Коэффициент, задающий во сколько раз нужно затормозить
-// одно из колёс для поворота
+#define SPEED            20
 #define BRAKE_K          10
  
-#define STATE_FORWARD    0
-#define STATE_RIGHT      1
-#define STATE_LEFT       2
+
  
 //int state = STATE_FORWARD;
 boolean flag=false;
@@ -80,7 +77,15 @@ void ivent_1(){
      analogWrite(SPEED_RIGHT, 0 );
      analogWrite(DIR_RIGHT, 0);   
      analogWrite(SPEED_LEFT, 0 );
-    
+     
+    int val1 = analogRead(sharp1);
+   delay(100);
+//    Serial.println(val1);
+    int val2 = analogRead(sharp2);
+   delay(100);
+  //  Serial.println(val2);
+   
+
 }
 
 void ivent_2(){
@@ -91,7 +96,7 @@ void ivent_2(){
        digitalWrite(28, LOW);
     
      ostanovka();
-     delay(200);
+     delay(2000);
 
      analogWrite(DIR_RIGHT, SPEED);   // turn right
      analogWrite(SPEED_LEFT, SPEED );
@@ -100,10 +105,22 @@ void ivent_2(){
      analogWrite(SPEED_RIGHT, 0 );
      analogWrite(DIR_RIGHT, 0);   
      analogWrite(SPEED_LEFT, 0 );
-    
+
+
+     
+     int val1 = analogRead(sharp1);
+   //delay(100);
+ //   Serial.println(val1);
+    int val2 = analogRead(sharp2);
+   //delay(100);
+   // Serial.println(val2);
 }
+
+
+   
 void setup() 
 {
+
    Serial.begin(115200);
     pinMode(SPEED_LEFT , OUTPUT);
     pinMode(SPEED_RIGHT , OUTPUT);
@@ -115,22 +132,51 @@ void setup()
 } 
  
 void loop() { 
+
+
+  float volts1  = analogRead(sharp1)* 0.005 ; //    5/1024
+  
+                                     // value from sensor * (5/1024)
+  int distance1 = 13*pow(volts1 , -1); // worked out from datasheet graph
+    
+
+ Serial.println(distance1);
+ delay(1000);
+ 
+ float volts2  = analogRead(sharp2)* 0.005 ; //    5/1024
+  
+                                     // value from sensor * (5/1024)
+  int distance2 = 13*pow(volts2 , -1); // worked out from datasheet graph
+    
+
+ Serial.println(distance2);
+delay(1000);
+
+ 
+ 
+  
+    // if (distance < 6){
+      // ostanovka();
+       //delay(5000);
+     //}
+ 
+ 
     
     int left_value = analogRead(LEFT_SENSOR_PIN);
     int right_value = analogRead(RIGHT_SENSOR_PIN);
 
 
     
-   Serial.print("left_value = ");
-   Serial.print(left_value);
-    Serial.println(" ");
-     Serial.println(" ");
+ //  Serial.print("left_value = ");
+  // Serial.print(left_value);
+   // Serial.println(" ");
+    // Serial.println(" ");
       
    
-   Serial.print("right_value = ");
-   Serial.print(right_value);
-   Serial.println(" ");
-     Serial.println(" ");
+  // Serial.print("right_value = ");
+   //Serial.print(right_value);
+   //Serial.println(" ");
+   //  Serial.println(" ");
    
    
 
